@@ -66,10 +66,14 @@ public class VendingMachine {
 
         Product selected = drinks[key];
         DrinkType drink = selected.take();
-        if (!isMoneyEnough(selected)) {
-            throw new NotEnoughMoneyException("Для совершения покупки не хватает " + (drink.getPrice() - money) + "рублей!");
+        double price = 0;
+        if (drink != null) {
+            price = drink.getPrice();
         }
-        money -= drink.getPrice();
+        if (!isMoneyEnough(selected)) {
+            throw new NotEnoughMoneyException("Для совершения покупки не хватает " + Math.abs(price - money) + "рублей!");
+        }
+        money -= price;
         return drink;
     }
 
